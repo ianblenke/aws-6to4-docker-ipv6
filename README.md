@@ -35,8 +35,10 @@ The generated instance has docker on it as well, with ipv6 support. Give it a tr
 
 This really isn't something to use in production.
 
-- The 192.88.99.1 gateway is not provided by AWS.
+- The 192.88.99.1 gateway is not provided by AWS, though it is _very_ close at us-east-1 through Hurricane Electric.
+- There are MTU issues to be concerned with, of course.
 - DNS requires some effort to handle ipv6 and retain the public/private IPV4 AWS split-horizon.
 
 The radvd mentioned in the `user-env.sh` script is currently not used. No route advertisement is done.
+The idea behind that was to announce IPV6 on a tinc mesh (a separate project).
 

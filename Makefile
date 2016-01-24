@@ -1,4 +1,4 @@
-plan apply output destroy:
+plan apply output docker-machine ssh destroy:
 	@make converge ACTION=$@
 
 converge:

@@ -29,13 +29,21 @@ mkdir -p secrets
 
 cd terraform/
 
-OPTIONS=""
-if [ "$ACTION" = "destroy" ]; then
-  OPTIONS=-force
-fi
-TARGET=.
-if [ "$ACTION" = "output" ]; then
-  TARGET=ssh_6to4
-fi
-
-exec terraform $ACTION $OPTIONS $TARGET
+case $ACTION in
+  destroy)
+    exec terraform destroy -force
+  ;;
+  output)
+    exec terraform output ssh_6to4
+  ;;
+  docker-machine)
+    set -x
+    CMD=$(terraform output docker-machine_6to4)
+    cd ..
+    eval "$CMD"
+  ;;
+  *)
+    exec terraform $ACTION .
+  ;;
+esac
+exit $?
