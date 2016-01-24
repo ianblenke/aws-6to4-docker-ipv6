@@ -26,6 +26,16 @@ resource "aws_security_group_rule" "sg_6to4_ingress_ssh" {
     security_group_id = "${aws_security_group.sg_6to4.id}"
 }
 
+resource "aws_security_group_rule" "sg_6to4_ingress_docker" {
+    type = "ingress"
+    from_port = 2376
+    to_port = 2376
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+
+    security_group_id = "${aws_security_group.sg_6to4.id}"
+}
+
 resource "aws_security_group_rule" "sg_6to4_ingress_tunnel" {
     type = "ingress"
     from_port = 0
