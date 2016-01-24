@@ -1,6 +1,18 @@
 #!/bin/bash -e
 
-for file in "$@"; do
+ACTION=$1
+
+if [ -z "$ACTION" ]; then
+  echo "Usage: $0 {action} {{filenames}.env}"
+  echo "Where {action} is a terraform action, like: plan, apply, destroy"
+  echo "Optionally {filenames}.env is a list of environment files to source"
+  exit 1
+fi
+
+shift
+
+# Source the passed *.env files
+for file in $@; do
   export $(cat $file)
 done
 
@@ -15,5 +27,10 @@ export TF_VAR_aws_region=${AWS_REGION}
 [ -f secrets/id_rsa-6to4 ] || ssh-keygen -t rsa -b 4096 -f secrets/id_rsa-6to4 -P ''
 
 cd terraform/
-terraform plan .
-terraform apply .
+
+OPTIONS=""
+if [ "$ACTION" = "destroy" ]; then
+  OPTIONS=-force
+fi
+
+exec terraform $ACTION $OPTIONS .
