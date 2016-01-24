@@ -118,7 +118,7 @@ cat <<EOD > /etc/default/docker
 
 # Use DOCKER_OPTS to modify the daemon startup options.
 #DOCKER_OPTS="--dns 8.8.8.8 --dns 8.8.4.4"
-DOCKER_OPTS="--ipv6 --fixed-cidr-v6=${PUBLIC_IPV6}:FEED::/80 --bip=172.17.0.1/16 --fixed-cidr=172.17.0.1/16"
+DOCKER_OPTS="--ipv6 --fixed-cidr-v6=${PUBLIC_IPV6}:D0CC::/80 --bip=172.17.0.1/16 --fixed-cidr=172.17.0.1/16"
 
 # If you need Docker to use an HTTP proxy, it can also be specified here.
 #export http_proxy="http://127.0.0.1:3128/"
