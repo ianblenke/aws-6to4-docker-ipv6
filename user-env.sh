@@ -18,7 +18,7 @@ cat <<EOI >> /etc/network/interfaces.d/6to4.cfg
 #	endpoint any
 #	local $PUBLIC_IPV4
 
-# This is the old way that appears to actually work.
+# This is the old way that does appear to actually work.
 auto sit0
 iface sit0 inet6 static
         address ${PUBLIC_IPV6}::1
@@ -77,7 +77,8 @@ domain-needed
 all-servers
 EOC
 
-for domain in $domains ; do
+# Make sure we handle split-horizon for both ec2.internal and amazonaws.com
+for domain in $domains amazonaws.com ; do
   # Route ec2.internal to AWS servers by default
   for server in $servers; do
     echo 'server=/'"$domain"'/'"$server" >> /etc/dnsmasq.conf
@@ -103,6 +104,8 @@ echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" > /etc/apt/sour
 apt-get update
 apt-get install -y linux-image-extra-$(uname -r)
 apt-get install -y docker-engine
+usermod -a -G docker ubuntu
+echo "User ubuntu added to docker group. You may wish to re-login to avoid using sudo docker."  |wall
 
 service docker stop
 

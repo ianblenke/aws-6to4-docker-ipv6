@@ -1,4 +1,4 @@
-plan apply destroy:
+plan apply output destroy:
 	@make converge ACTION=$@
 
 converge:

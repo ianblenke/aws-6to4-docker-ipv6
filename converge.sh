@@ -32,5 +32,9 @@ OPTIONS=""
 if [ "$ACTION" = "destroy" ]; then
   OPTIONS=-force
 fi
+TARGET=.
+if [ "$ACTION" = "output" ]; then
+  TARGET=ssh_6to4
+fi
 
-exec terraform $ACTION $OPTIONS .
+exec terraform $ACTION $OPTIONS $TARGET
