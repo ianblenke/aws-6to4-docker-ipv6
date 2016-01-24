@@ -24,6 +24,7 @@ export TF_VAR_aws_access_key_id=${AWS_ACCESS_KEY_ID}
 export TF_VAR_aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}
 export TF_VAR_aws_region=${AWS_REGION}
 
+mkdir -p secrets
 [ -f secrets/id_rsa-6to4 ] || ssh-keygen -t rsa -b 4096 -f secrets/id_rsa-6to4 -P ''
 
 cd terraform/
