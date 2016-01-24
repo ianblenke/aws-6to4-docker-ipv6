@@ -37,10 +37,7 @@ case $ACTION in
     exec terraform output ssh_6to4
   ;;
   docker-machine)
-    set -x
-    CMD=$(terraform output docker-machine_6to4)
-    cd ..
-    eval "$CMD"
+    exec terraform output docker-machine_6to4
   ;;
   *)
     exec terraform $ACTION .

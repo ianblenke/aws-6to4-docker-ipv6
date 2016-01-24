@@ -29,7 +29,25 @@ You can eval or cut and paste that to get a shell on the instance.
 
 ## Docker
 
-The generated instance has docker on it as well, with ipv6 support. Give it a try.
+The generated instance has docker on it as well, with ipv6 support.
+
+To see the docker-machine command needed to add it to your local docker config:
+
+	$ make docker-machine
+	docker-machine create -d generic --generic-ip-address 52.91.201.237 --generic-ssh-key terraform/../secrets/id_rsa-6to4 --generic-ssh-user ubuntu ianblenke-dev-6to4
+
+If you eval that output, or copy and paste and run this command, you will end up with a docker-machine host entry:
+
+	$ docker-machine ls
+	NAME                 ACTIVE   DRIVER         STATE     URL                        SWARM   ERRORS
+	ianblenke-dev-6to4   -        generic        Running   tcp://52.91.201.237:2376
+
+From here, you can source it and run docker commands locally:
+
+	$ eval $(docker-machine env ianblenke-dev-6to4)
+	$ docker ps -a
+
+Have fun with your new AWS hosted IPV6 enabled docker host.
 
 ## Notes
 
