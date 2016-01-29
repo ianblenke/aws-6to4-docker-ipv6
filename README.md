@@ -31,12 +31,17 @@ You can eval or cut and paste that to get a shell on the instance.
 
 The generated instance has docker on it as well, with ipv6 support.
 
-To see the docker-machine command needed to add it to your local docker config:
+If you ssh as shown above, you can run docker commands directly on the instance and the containers will have IPV6 support.
+
+## Docker-Machine
+
+To add this remote instance to your local docker-machine config:
 
 	$ make docker-machine
-	docker-machine create -d generic --generic-ip-address 52.91.201.237 --generic-ssh-key terraform/../secrets/id_rsa-6to4 --generic-ssh-user ubuntu ianblenke-dev-6to4
 
-If you eval that output, or copy and paste and run this command, you will end up with a docker-machine host entry:
+Now your docker daemon is running with IPV6 enabled.
+
+After running docker-machine create, you will end up with a docker-machine host entry:
 
 	$ docker-machine ls
 	NAME                 ACTIVE   DRIVER         STATE     URL                        SWARM   ERRORS
