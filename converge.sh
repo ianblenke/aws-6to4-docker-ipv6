@@ -35,21 +35,26 @@ cd terraform/
 
 case $ACTION in
   destroy)
-    exec terraform destroy -force
+    terraform destroy -force
+    cd ..
+    eval "$(cd terraform; terraform output docker-machine_rm_6to4)"
   ;;
   output)
     exec terraform output ssh_6to4
   ;;
   docker-machine)
-    eval "$(terraform output docker-machine_6to4)"
-    eval $(terraform output ssh_6to4) bash -c '
-      PUBLIC_IPV4="$(curl -qs http://169.254.169.254/2014-11-05/meta-data/public-ipv4)" ;
-      [ -n "$PUBLIC_IPV4" ] || PUBLIC_IPV4="$(curl -qs ipinfo.io/ip)" ;
-      PUBLIC_IPV6="$(printf '2002:%02x%02x:%02x%02x' $(echo $PUBLIC_IPV4 | tr '.' ' '))" ;
-      echo DOCKER_OPTS='"'-H tcp://0.0.0.0:2376 -H unix:///var/run/docker.sock --storage-driver aufs --tlsverify --tlscacert /etc/docker/ca.pem --tlscert /etc/docker/server.pem --tlskey /etc/docker/server-key.pem --label provider=generic --ipv6 --fixed-cidr-v6=${PUBLIC_IPV6}:D0CC::/80 --bip=172.17.0.1/16 --fixed-cidr=172.17.0.1/16"'" > /etc/default/docker ;
-      restart docker
-    '
-    docker-machine ls
+    cd ..
+    set -x
+    echo -n 'Waiting for instance to become ready.'
+    while ! $(cd terraform; terraform output ssh_6to4) -- docker ps -a ; do
+      echo -n '.'
+      sleep 10
+    done
+    echo 'Creating docker-machine!'
+    eval "$(cd terraform; terraform output docker-machine_create_6to4)"
+    eval "$(cd terraform; terraform output docker-machine_env_6to4)"
+    eval "$(cd terraform; terraform output docker-machine_scp_6to4 | sed -e s/%/fix_docker_defaults.sh/g)"
+    eval "$(cd terraform; terraform output docker-machine_ssh_6to4) -- sudo bash -x /tmp/fix_docker_defaults.sh"
   ;;
   *)
     exec terraform $ACTION .
