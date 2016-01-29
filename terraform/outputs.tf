@@ -38,12 +38,12 @@ output "docker-machine_ssh_6to4" {
   value = "docker-machine ssh ${var.Project}-${var.Environment}-6to4"
 }
 
-output "docker-machine_scp_6to4" {
-  value = "docker-machine scp % ${var.Project}-${var.Environment}-6to4:/tmp/%"
+output "docker-machine_rm_6to4" {
+  value = "docker-machine rm ${var.Project}-${var.Environment}-6to4"
 }
 
-output "docker-machine_rm_6to4" {
-  value = "docker-machine rm % ${var.Project}-${var.Environment}-6to4:/tmp/%"
+output "docker-machine_scp_6to4" {
+  value = "docker-machine scp % ${var.Project}-${var.Environment}-6to4:/tmp/%"
 }
 
 output "ssh_6to4" {
