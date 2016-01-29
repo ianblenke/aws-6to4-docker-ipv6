@@ -44,17 +44,16 @@ case $ACTION in
   ;;
   docker-machine)
     cd ..
-    set -x
     echo -n 'Waiting for instance to become ready.'
-    while ! $(cd terraform; terraform output ssh_6to4) -- docker ps -a ; do
+    while ! $(cd terraform; terraform output ssh_6to4) -- docker ps -a > /dev/null 2>&1 ; do
       echo -n '.'
       sleep 10
     done
-    echo 'Creating docker-machine!'
+    echo ' Creating docker-machine!'
     eval "$(cd terraform; terraform output docker-machine_create_6to4)"
     eval "$(cd terraform; terraform output docker-machine_env_6to4)"
     eval "$(cd terraform; terraform output docker-machine_scp_6to4 | sed -e s/%/fix_docker_defaults.sh/g)"
-    eval "$(cd terraform; terraform output docker-machine_ssh_6to4) -- sudo bash -x /tmp/fix_docker_defaults.sh"
+    eval "$(cd terraform; terraform output docker-machine_ssh_6to4) -- sudo bash /tmp/fix_docker_defaults.sh"
   ;;
   *)
     exec terraform $ACTION .
