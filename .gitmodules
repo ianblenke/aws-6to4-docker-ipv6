@@ -1,0 +1,3 @@
+[submodule "kamailio"]
+	path = kamailio
+	url = git@github.com:ianblenke/docker-kamailio.git
