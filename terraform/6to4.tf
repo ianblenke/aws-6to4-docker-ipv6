@@ -56,6 +56,27 @@ resource "aws_security_group_rule" "sg_6to4_ingress_all_icmp" {
     security_group_id = "${aws_security_group.sg_6to4.id}"
 }
 
+resource "aws_security_group_rule" "sg_6to4_ingress_kamailio" {
+    type = "ingress"
+    from_port = 25060
+    to_port = 25061
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+
+    security_group_id = "${aws_security_group.sg_6to4.id}"
+}
+
+resource "aws_security_group_rule" "sg_6to4_ingress_rtpproxy" {
+    type = "ingress"
+    from_port = 10000
+    to_port = 19999
+    protocol = "udp"
+    cidr_blocks = ["0.0.0.0/0"]
+
+    security_group_id = "${aws_security_group.sg_6to4.id}"
+}
+
+
 resource "aws_security_group_rule" "sg_6to4_ingress_all_internal" {
     type = "ingress"
     from_port = 0
