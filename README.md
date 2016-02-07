@@ -54,6 +54,10 @@ From here, you can source it and run docker commands locally:
 
 Have fun with your new AWS hosted IPV6 enabled docker host.
 
+## kamailio
+
+As an example of something deployable with IPV6, there is a `kamailio/` submodule that links over to the [ianblenke/docker-kamailio](https://github.com/ianblenke/docker-kamailio) repository. Give it a try!
+
 ## Notes
 
 This really isn't something to use in production.
